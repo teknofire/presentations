@@ -1,0 +1,3 @@
+[submodule "akmss-2012/public/gina-map-layers"]
+	path = akmss-2012/public/gina-map-layers
+	url = git@github.com:gina-alaska/gina-map-layers.git
