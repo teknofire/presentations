@@ -12,13 +12,15 @@
     <script src="gina-map-layers/layers/osm.js" type="text/javascript"></script>
     <script src="gina-map-layers/layers/shaded_relief.js" type="text/javascript"></script>
     <script src="gina-map-layers/layers/topo.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/spot5.js" type="text/javascript"></script>
     <script src="gina-map-layers/builders/openlayers.js" type="text/javascript"></script>
     
     <script type="text/javascript" charset="utf-8">
+      var map;
       function initialize() {
-        var map = new OpenLayers.Map("map");
+        map = new OpenLayers.Map("map");
 
-        Gina.Layers.inject(map, ["TILE.EPSG:3857.BDL","TILE.EPSG:3857.TOPO","TILE.EPSG:3857.CHARTS","TILE.EPSG:3857.SHADED_RELIEF",])
+        Gina.Layers.inject(map, 'TILE.EPSG:3857.*');
 
         map.addControl(new OpenLayers.Control.LayerSwitcher());
         map.zoomToMaxExtent();        
