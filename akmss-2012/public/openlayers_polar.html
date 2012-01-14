@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AKMSS - 2012</title>
+    <link rel="stylesheet" href="/application.css" type="text/css" media="screen" title="no title" charset="utf-8">  
+
+    <script src="OpenLayers-2.11/OpenLayers.js" type="text/javascript" charset="utf-8"></script>
+    <script src="gina-map-layers/gina.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/bdl.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/chart.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/landsat.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/osm.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/shaded_relief.js" type="text/javascript"></script>
+    <script src="gina-map-layers/layers/topo.js" type="text/javascript"></script>
+    <script src="gina-map-layers/projections/epsg_3572.js" type="text/javascript"></script>
+    <script src="gina-map-layers/builders/openlayers.js" type="text/javascript"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      function initialize() {
+        var config = Gina.Projections.get('EPSG:3572');
+        
+        var map = new OpenLayers.Map("map", config);
+
+        Gina.Layers.inject(map, config.defaultLayers)
+
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+        map.zoomToMaxExtent();        
+      }
+    </script>
+  </head>
+  <body onload="initialize()">
+    <h1 id="openlayers_example">OpenLayers Example</h1>
+    <div id="map"></div>
+  </body>
+</html>
