@@ -8,19 +8,12 @@
     <link rel="stylesheet" href="/application.css" type="text/css" media="screen" title="no title" charset="utf-8">  
 
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script src="gina-map-layers/gina.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/bdl.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/chart.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/landsat.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/osm.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/shaded_relief.js" type="text/javascript"></script>
-    <script src="gina-map-layers/layers/topo.js" type="text/javascript"></script>
-    <script src="gina-map-layers/builders/googlemaps.js" type="text/javascript"></script>
+    <script src="gina-map-layers/gina-googlemaps3.js" type="text/javascript"></script>
     
     <script type="text/javascript">
       var map;
       function initialize() {
-        var layers = ['TILE.EPSG:3857.BDL','TILE.EPSG:3857.TOPO','TILE.EPSG:3857.CHARTS','TILE.EPSG:3857.SHADED_RELIEF', 'TILE.EPSG:3857.OSM'];
+        var layers = Gina.Layers.getNames('TILE.EPSG:3857.*');
         
         var myOptions = {
           zoom: 8,
@@ -35,12 +28,37 @@
             
         Gina.Layers.inject(map, layers);
       }
+      
+      function addRGB() {
+        var layer = Gina.Layers.get('TILE.EPSG:3857.SDMI_ORTHO_RGB');
+        map.overlayMapTypes.clear();
+        map.overlayMapTypes.push(layer);
+      }
+      
+      function addCIR() {
+        var layer = Gina.Layers.get('TILE.EPSG:3857.SDMI_ORTHO_CIR');
+        map.overlayMapTypes.clear();
+        map.overlayMapTypes.push(layer);
+      }
+      
+      function addGS() {
+        var layer = Gina.Layers.get('TILE.EPSG:3857.SDMI_ORTHO_GS');
+        map.overlayMapTypes.clear();
+        map.overlayMapTypes.push(layer);
+      }
 
       google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
-    <h1 id="google_maps_example">Google Maps Example</h1>
-    <div id="map"></div>
+    <div id="page">
+      <h1 id="google_maps_example">Google Maps Example</h1>
+      <div id="map"></div>
+      <div id="overlays">
+        <input type="button" value="Show SDMI ORTHO Natural Color" onClick="addRGB()" />
+        <input type="button" value="Show SDMI ORTHO Color Infrared" onClick="addCIR()" />
+        <input type="button" value="Show SDMI ORTHO Grayscale" onClick="addGS()" />
+      </div>
+    </div>
   </body>
 </html>
