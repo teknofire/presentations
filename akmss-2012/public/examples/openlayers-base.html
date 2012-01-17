@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AKMSS - 2012</title>
+    <link rel="stylesheet" href="/application.css" type="text/css" media="screen" title="no title" charset="utf-8">  
+    
+    <script src="/OpenLayers-2.11/OpenLayers.js" type="text/javascript" charset="utf-8"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      var map;
+      function initialize() {
+        map = new OpenLayers.Map("map");
+        
+        map.addControl(new OpenLayers.Control.LayerSwitcher());
+        map.zoomToMaxExtent();        
+      }
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="page">
+      <h1 id="openlayers_example">OpenLayers Example</h1>
+      <div id="map"></div>
+    </div>
+  </body>
+</html>

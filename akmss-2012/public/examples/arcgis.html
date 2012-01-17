@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AKMSS - 2012</title>
+    <link rel="stylesheet" href="/application.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    
+    <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.6"></script>
+    <script src="/gina-map-layers/gina-arcgis26.js" type="text/javascript"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+      dojo.require("esri.map");
+      
+      var map;
+      function initialize() {
+        map = new esri.Map("map");
+        var basemapURL= "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
+         var basemap = new esri.layers.ArcGISTiledMapServiceLayer(basemapURL);
+        
+        Gina.Layers.inject(map, ['TILE.EPSG:3857.BDL', 'TILE.EPSG:3857.SDMI_ORTHO_RGB']);
+      }
+      dojo.addOnLoad(initialize);
+    </script>
+  </head>
+  <body>
+    <div id="page">
+      <h1 id="openlayers_example">ArcGIS Javascript API Example</h1>
+      <div id="map"></div>
+    </div>
+  </body>
+</html>
