@@ -43,6 +43,11 @@ h1 {
   text-shadow: 0px 0px 2px #000, 2px 2px 8px #000;
 }
 
+.olControlMousePosition {
+  background: #fff;
+  padding: 3px;
+}
+
 .header {
   margin-top: 5px;
 }
