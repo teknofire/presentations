@@ -12,8 +12,14 @@
       
       function initialize() {
         var config = Gina.Projections.get('EPSG:3338');
-                
-        map = new OpenLayers.Map("map", config);
+        if(!config) { alert('Unknown projection!'); }
+        
+        map = new OpenLayers.Map("map", {
+          projection: config.projection,
+          maxExtent: config.maxExtent,
+          maxResolution: config.maxResolution,
+          units: config.units
+        });
         Gina.Layers.inject(map, 'TILE.EPSG:3338.BDL');
         
         map.addControl(new OpenLayers.Control.LayerSwitcher());
