@@ -8,7 +8,12 @@
     <script type="text/javascript">
       var map;
       function initialize() {
-        map = new OpenLayers.Map("map");
+        map = new OpenLayers.Map("map", { 
+          projection: 'EPSG:3857',
+          maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508),
+          maxResolution: 156543.0339, /* (20037508.0*2/256) */
+          units: 'm'
+        });
         Gina.Layers.inject(map, 'TILE.EPSG:3857.BDL');
         map.addControl(new OpenLayers.Control.LayerSwitcher());
         map.zoomToMaxExtent();        

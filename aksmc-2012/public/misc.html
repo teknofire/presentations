@@ -3,13 +3,19 @@
   <head>
     <title>AKSMC - 2012</title>
     <link rel="stylesheet" href="application.css" type="text/css">
+    <script src="proj4js/lib/proj4js-compressed.js" type="text/javascript"></script>
     <script src="OpenLayers-2.11/OpenLayers.js" type="text/javascript"></script>
     <script src="gina-map-layers/gina-openlayers.js" type="text/javascript"></script>
+    <script src="gina-map-layers/projections/all.js" type="text/javascript"></script>
     <script type="text/javascript">
       var map;
+      
       function initialize() {
-        map = new OpenLayers.Map("map");
-        Gina.Layers.inject(map, 'TILE.EPSG:3857.BDL');
+        var config = Gina.Projections.get('EPSG:3338');
+                
+        map = new OpenLayers.Map("map", config);
+        Gina.Layers.inject(map, 'TILE.EPSG:3338.BDL');
+        
         map.addControl(new OpenLayers.Control.LayerSwitcher());
         map.zoomToMaxExtent();        
       }
