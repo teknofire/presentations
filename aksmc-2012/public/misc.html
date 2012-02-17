@@ -8,22 +8,46 @@
     <script src="gina-map-layers/gina-openlayers.js" type="text/javascript"></script>
     <script src="gina-map-layers/projections/all.js" type="text/javascript"></script>
     <script type="text/javascript">
+      Proj4js.defs["EPSG:3857"] = "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
+      Proj4js.defs["EPSG:3572"] = "+proj=laea +lat_0=90 +lon_0=-150 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs";
+      Proj4js.defs["EPSG:3338"] = "+proj=aea +lat_1=55 +lat_2=65 +lat_0=50 +lon_0=-154 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";
+      
       var map;
       
       function initialize() {
         var config = Gina.Projections.get('EPSG:3338');
         if(!config) { alert('Unknown projection!'); }
-        
+                
         map = new OpenLayers.Map("map", {
           projection: config.projection,
           maxExtent: config.maxExtent,
           maxResolution: config.maxResolution,
           units: config.units
         });
-        Gina.Layers.inject(map, 'TILE.EPSG:3338.BDL');
-        
+        Gina.Layers.inject(map, 'WMS.BDL');
         map.addControl(new OpenLayers.Control.LayerSwitcher());
         map.zoomToMaxExtent();        
+        
+        var vector = new OpenLayers.Layer.Vector('alaska');
+        map.addLayer(vector);
+        var handler = function(request) {
+          var epsg4326 = new OpenLayers.Projection('EPSG:4326');
+          var epsg3338 = new OpenLayers.Projection('EPSG:3338');        
+          var geojson = new OpenLayers.Format.GeoJSON();
+          var ak = geojson.read(request.responseText)[0];
+          ak.geometry.transform(epsg4326, epsg3338);
+          vector.addFeatures(ak);
+        }
+
+        var ak = OpenLayers.Request.GET({
+          url: '/alaska.geojson',
+          callback: handler
+        });
+
+        // var wkt = new OpenLayers.Format.WKT();
+        
+        // var ak = wkt.read("POLYGON((-151.5234375 59.1759282492714,-147.3046875 60.2398111699989,-139.74609375 59.4450750990471,-136.03271484375 56.8669911893292,-133.61572265625 54.901882187385,-132.47314453125 54.3421488644834,-130.71533203125 54.6865342345297,-130.2099609375 54.9839181903632,-129.96826171875 55.3791104480105,-130.10009765625 55.6899717138132,-129.891357421875 56.0352257836987,-131.66015625 56.7346486470295,-133.9013671875 58.8876193845904,-135.4833984375 59.9274956808828,-137.340087890625 59.1759282492714,-138.427734375 59.7785219850299,-139.21875 60.3704290163151,-140.07568359375 60.2179907332345,-140.9765625 60.4138523504649,-141.328125 63.8600358953953,-140.9765625 69.7789517764676,-151.171875 70.7869098411793,-156.97265625 71.5249090373282,-162.421875 70.7869098411793,-167.34375 69.2872569516789,-166.9921875 67.2720426739952,-169.62890625 65.3668368922632,-165.5859375 63.8600358953953,-167.34375 62.5123179383869,-166.81640625 59.1759282492714,-159.9609375 57.421294392094,-164.70703125 55.9737982050766,-173.84765625 52.052490476001,-171.73828125 51.6180165487737,-168.92578125 52.6963610782745,-158.90625 55.8753108356968,-153.6328125 56.2921566850764,-151.7431640625 57.7276192162149,-151.5234375 59.1759282492714))");
+
       }
     </script>
   </head>
